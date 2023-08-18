@@ -1,26 +1,13 @@
 'use client'
 
 import * as React from 'react';
-import { fetcher, renderDate } from "@/lib/utils"
 import { Box, Collapse, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import useSWR from 'swr';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Link from 'next/link';
-
-interface Rsc {
-  workflowId: string,
-  resourceId: string,
-  name: string,
-  resourceType: string,
-  resourceSpec: any,
-  maxAttempt: number,
-  status: string,
-  createdAt: string,
-  activatedAt: string,
-  terminatedAt: string,
-  terminateAfter: number
-}
+import { Resource } from '@/lib/models';
+import { fetcher, renderDate } from '@/lib/utils';
 
 function Row({ workflow, rsc }) {
   const [open, setOpen] = React.useState(false)
@@ -90,7 +77,7 @@ export default function ResourcesPage({ params }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.resources.map((rsc: Rsc) => (
+            {data.resources.map((rsc: Resource) => (
               <Row workflow={data.workflow} rsc={rsc} key={rsc.resourceId} />
             ))}
           </TableBody>

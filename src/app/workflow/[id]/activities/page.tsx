@@ -14,6 +14,7 @@ import { Box, Collapse, Container, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Link from 'next/link';
+import { Activity } from '@/lib/models';
 
 function Row({ workflow, act }) {
   const [open, setOpen] = React.useState(false)
@@ -89,7 +90,7 @@ export default function WorkflowPage({ params }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.activities.map((act) => (
+            {data.activities.map((act: Activity) => (
               <Row workflow={data.workflow} act={act} key={act.activityId} />
             ))}
           </TableBody>

@@ -1,22 +1,24 @@
 import { NextResponse } from 'next/server'
 
-export function hourSpan(activatedAt, terminatedAt) {
+export function hourSpan(activatedAt: string, terminatedAt: string) {
   let end = new Date()
   if (terminatedAt) {
     end = new Date(terminatedAt + 'Z')
   }
 
   let start = new Date(activatedAt + 'Z')
-  return Math.round((end - start) / 1000 / 60 / 60 * 10) / 10
+  return Math.round((end.valueOf() - start.valueOf()) / 1000 / 60 / 60 * 10) / 10
 }
 
-export const fetcher = (...args) => fetch(...args).then((res) => res.json())
+export const fetcher = (input: RequestInfo | URL, init?: RequestInit) => (
+  fetch(input, init).then((res) => res.json())
+)
 
-export function renderDate(datestr) {
+export function renderDate(datestr: string) {
   return new Date(datestr + 'Z').toUTCString()
 }
 
-export async function fetchJson(url) {
+export async function fetchJson(url: RequestInfo | URL) {
   const res = await fetch(url, {
     method: "GET",
     headers: {

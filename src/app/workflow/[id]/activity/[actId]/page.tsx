@@ -6,6 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Box, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import useSWR from 'swr';
+import { ActivityAttempt } from '@/lib/models';
 
 function Row({ workflowId, attempt }) {
   const [open, setOpen] = React.useState(false)
@@ -68,7 +69,7 @@ export default function ActivityPage({ params }: { params: {id: string, actId: s
           <TableCell>Terminated At</TableCell>
         </TableHead>
         <TableBody>
-          {data.attempts.map((attempt) => (
+          {data.attempts.map((attempt: ActivityAttempt) => (
             <Row workflowId={params.id} attempt={attempt} key={attempt.attempt} />
           ))}
         </TableBody>

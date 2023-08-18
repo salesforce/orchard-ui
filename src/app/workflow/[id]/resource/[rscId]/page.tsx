@@ -6,18 +6,7 @@ import { Box, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell
 import useSWR from 'swr';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-interface RscInst {
-  workflowId: string,
-  resourceId: string,
-  instanceAttempt: number,
-  instanceSpec: any,
-  status: string,
-  errorMessage: string,
-  createdAt: string,
-  activatedAt: string,
-  terminatedAt: string
-}
+import { ResourceInstance } from '@/lib/models';
 
 function Row({ inst }) {
   const [open, setOpen] = React.useState(false)
@@ -77,7 +66,7 @@ export default function ResourcePage({ params }) {
           <TableCell>Terminated At</TableCell>
         </TableHead>
         <TableBody>
-          {data.instances.map((inst: RscInst) => (
+          {data.instances.map((inst: ResourceInstance) => (
             <Row inst={inst} key={inst.instanceAttempt} />
           ))}
         </TableBody>
