@@ -8,7 +8,25 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ResourceInstance } from '@/lib/models';
 
-function Row({ inst }) {
+function AWSLink({ rscType, spec }) {
+
+  let url: string = null
+  if (rscType == 'aws.resource.EmrResource') {
+    url = `https://console.aws.amazon.com/emr/home?region=us-east-1#/clusterDetails/${spec.clusterId}`
+  } else if (rscType == 'aws.resource.Ec2Resource') {
+    url = `https://console.aws.amazon.com/ec2/home?region=us-east-1#InstanceDetails:instanceId=${spec.ec2InstanceId}`
+  }
+
+  if (url) {
+    return (
+      <a target="_blank" href={url}>External Link</a>
+    )
+  }
+
+  return <></>
+}
+
+function Row({ rsc, inst }) {
   const [open, setOpen] = React.useState(false)
   return (
     <>
@@ -38,11 +56,11 @@ function Row({ inst }) {
                   {JSON.stringify(inst.instanceSpec, null, 2)}
                 </pre>
               </Box>
+              <AWSLink rscType={rsc.resourceType} spec={inst.instanceSpec} />
             </Container>
           </Collapse>
         </TableCell>
       </TableRow>
-
     </>
   )
 }
@@ -67,7 +85,7 @@ export default function ResourcePage({ params }) {
         </TableHead>
         <TableBody>
           {data.instances.map((inst: ResourceInstance) => (
-            <Row inst={inst} key={inst.instanceAttempt} />
+            <Row rsc={data.resource} inst={inst} key={inst.instanceAttempt} />
           ))}
         </TableBody>
       </TableContainer>
