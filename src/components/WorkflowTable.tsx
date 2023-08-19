@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import useSWR from 'swr';
 import { fetcher, hourSpan, renderDate } from '@/lib/utils';
+import StatusDisplay from './StatusDisplay';
 
 export function BasicTable({ statuses }) {
 
@@ -39,10 +40,10 @@ export function BasicTable({ statuses }) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                <Link href={`/workflow/${row.id}/activities`}>{row.id}</Link>
+                <Link href={`/workflow/${row.id}`}>{row.id}</Link>
               </TableCell>
               <TableCell>{row.name}</TableCell>
-              <TableCell>{row.status} ({hourSpan(row.activatedAt, row.terminatedAt)} hours)</TableCell>
+              <TableCell><StatusDisplay status={row.status} hourSpan={hourSpan(row.activatedAt, row.terminatedAt)} /></TableCell>
               <TableCell>{renderDate(row.createdAt)}</TableCell>
               <TableCell>{renderDate(row.activatedAt)}</TableCell>
               <TableCell>{renderDate(row.terminatedAt)}</TableCell>
