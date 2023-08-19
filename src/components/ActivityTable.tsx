@@ -41,7 +41,7 @@ function Row({ workflow, act }) {
         </TableCell>
         <TableCell>{act.name}</TableCell>
         <TableCell>{act.activityType}</TableCell>
-        <TableCell><StatusDisplay status={act.status} hourSpan={hourSpan(act.activatedAt, act.terminatedAt)} /></TableCell>
+        <TableCell align="center"><StatusDisplay status={act.status} hourSpan={hourSpan(act.activatedAt, act.terminatedAt)} /></TableCell>
         <TableCell>{act.maxAttempt}</TableCell>
         <TableCell><Link href={`/workflow/${workflow.id}/resource/${act.resourceId}`}>{act.resourceId}</Link></TableCell>
         <TableCell>{renderDate(act.createdAt)}</TableCell>

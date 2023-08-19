@@ -43,7 +43,7 @@ export function BasicTable({ statuses }) {
                 <Link href={`/workflow/${row.id}`}>{row.id}</Link>
               </TableCell>
               <TableCell>{row.name}</TableCell>
-              <TableCell><StatusDisplay status={row.status} hourSpan={hourSpan(row.activatedAt, row.terminatedAt)} /></TableCell>
+              <TableCell align="center"><StatusDisplay status={row.status} hourSpan={hourSpan(row.activatedAt, row.terminatedAt)} /></TableCell>
               <TableCell>{renderDate(row.createdAt)}</TableCell>
               <TableCell>{renderDate(row.activatedAt)}</TableCell>
               <TableCell>{renderDate(row.terminatedAt)}</TableCell>

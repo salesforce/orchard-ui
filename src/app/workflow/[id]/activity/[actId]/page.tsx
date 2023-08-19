@@ -1,12 +1,13 @@
 'use client'
 
 import * as React from 'react';
-import { fetcher, renderDate } from '@/lib/utils';
+import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Box, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import useSWR from 'swr';
 import { ActivityAttempt } from '@/lib/models';
+import StatusDisplay from '@/components/StatusDisplay';
 
 function Row({ workflowId, attempt }) {
   const [open, setOpen] = React.useState(false)
@@ -23,12 +24,12 @@ function Row({ workflowId, attempt }) {
             </IconButton>
         </TableCell>
         <TableCell>{attempt.attempt}</TableCell>
-        <TableCell>{attempt.status}</TableCell>
+        <TableCell><StatusDisplay status={attempt.status} hourSpan={hourSpan(attempt.activatedAt, attempt.terminatedAt)} /></TableCell>
         <TableCell>{attempt.errorMessage}</TableCell>
         <TableCell><Link href={`/workflow/${workflowId}/resource/${attempt.resourceId}`}>{attempt.resourceId}</Link></TableCell>
         <TableCell>{attempt.resourceInstanceAttempt}</TableCell>
         <TableCell>{renderDate(attempt.createdAt)}</TableCell>
-        <TableCell>{renderDate(attempt.createdAt)}</TableCell>
+        <TableCell>{renderDate(attempt.activatedAt)}</TableCell>
         <TableCell>{renderDate(attempt.terminatedAt)}</TableCell>
       </TableRow>
       <TableRow>

@@ -1,11 +1,12 @@
 import { Resource } from '@/lib/models';
-import { fetcher, renderDate } from '@/lib/utils';
+import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Box, Collapse, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import Link from 'next/link';
 import * as React from 'react';
 import useSWR from 'swr';
+import StatusDisplay from './StatusDisplay';
 
 function Row({ workflow, rsc }) {
   const [open, setOpen] = React.useState(false)
@@ -24,7 +25,9 @@ function Row({ workflow, rsc }) {
         <TableCell><Link href={`/workflow/${workflow.id}/resource/${rsc.resourceId}`}>{rsc.resourceId}</Link></TableCell>
         <TableCell>{rsc.name}</TableCell>
         <TableCell>{rsc.resourceType}</TableCell>
-        <TableCell>{rsc.status}</TableCell>
+        <TableCell align="center">
+          <StatusDisplay status={rsc.status} hourSpan={hourSpan(rsc.activatedAt, rsc.terminatedAt)} />
+        </TableCell>
         <TableCell>{rsc.maxAttempt}</TableCell>
         <TableCell>{rsc.terminateAfter}</TableCell>
         <TableCell>{renderDate(rsc.createdAt)}</TableCell>

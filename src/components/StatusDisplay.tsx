@@ -1,13 +1,29 @@
-import { Box, LinearProgress, Typography } from "@mui/material";
+import { Cancel, CheckCircle, Error, Pending } from "@mui/icons-material";
+import { Box, LinearProgress, Typography, styled } from "@mui/material";
+
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 15,
+  borderRadius: 5,
+}));
 
 export default function StatusDisplay({ status, hourSpan }) {
+
+  if (status === 'pending')
+    return (
+      <>
+        <Pending color="secondary" />
+        <Box sx={{ minWidth: 35 }}>
+          <Typography variant="body2" color="text.secondary">pending</Typography>
+        </Box>
+      </>
+    )
 
   if (status === 'running')
     return (
       <>
-        <LinearProgress />
+        <BorderLinearProgress color="info" />
         <Box sx={{ minWidth: 35 }}>
-          <Typography variant="body2" color="text.secondary">{`${hourSpan} hrs`}</Typography>
+          <Typography variant="body2" color="text.secondary">{`${hourSpan} h`}</Typography>
         </Box>
       </>
     )
@@ -15,16 +31,37 @@ export default function StatusDisplay({ status, hourSpan }) {
   if (status === 'finished')
     return (
       <>
-        <LinearProgress variant="determinate" color="success" value={100} />
+        <CheckCircle color="success" />
         <Box sx={{ minWidth: 35 }}>
-          <Typography variant="body2" color="text.secondary">{`${hourSpan} hrs`}</Typography>
+          <Typography variant="body2" color="text.secondary">{`${hourSpan} h`}</Typography>
+        </Box>
+      </>
+    )
+
+  if (status === 'failed')
+    return (
+      <>
+        <Error color="error" />
+        <Box sx={{ minWidth: 35 }}>
+          <Typography variant="body2" color="text.secondary">{`${hourSpan} h`}</Typography>
+        </Box>
+      </>
+    )
+
+  if (status === 'canceled')
+    return (
+      <>
+        <Cancel color="warning" />
+        <Box sx={{ minWidth: 35 }}>
+          <Typography variant="body2" color="text.secondary">{`${hourSpan} h`}</Typography>
         </Box>
       </>
     )
 
   return (
     <>
-      {status} ({hourSpan} hrs)
+      {status}
+      ({hourSpan} hrs)
     </>
   )
 }

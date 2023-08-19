@@ -1,12 +1,13 @@
 'use client'
 
 import * as React from 'react';
-import { fetcher, renderDate } from '@/lib/utils';
+import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import { Box, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import useSWR from 'swr';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ResourceInstance } from '@/lib/models';
+import StatusDisplay from '@/components/StatusDisplay';
 
 function AWSLink({ rscType, spec }) {
 
@@ -41,10 +42,10 @@ function Row({ rsc, inst }) {
           </IconButton>
         </TableCell>
         <TableCell>{inst.instanceAttempt}</TableCell>
-        <TableCell>{inst.status}</TableCell>
+        <TableCell align="center"><StatusDisplay status={inst.status} hourSpan={hourSpan(inst.activatedAt, inst.terminatedAt)} /></TableCell>
         <TableCell>{inst.errorMessage}</TableCell>
         <TableCell>{renderDate(inst.createdAt)}</TableCell>
-        <TableCell>{renderDate(inst.createdAt)}</TableCell>
+        <TableCell>{renderDate(inst.activatedAt)}</TableCell>
         <TableCell>{renderDate(inst.terminatedAt)}</TableCell>
       </TableRow>
       <TableRow>
