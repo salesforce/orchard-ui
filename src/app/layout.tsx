@@ -22,6 +22,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ErrorIcon from '@mui/icons-material/Error';
 import PendingIcon from '@mui/icons-material/Pending';
+import SideNav from '@/components/SideNav';
 
 export const metadata = {
   title: 'Orchard Console',
@@ -58,48 +59,7 @@ export default function RootLayout({ children }) {
               </Typography>
             </Toolbar>
           </AppBar>
-          <Drawer
-            sx={{
-              width: DRAWER_WIDTH,
-              flexShrink: 0,
-              '& .MuiDrawer-paper': {
-                width: DRAWER_WIDTH,
-                boxSizing: 'border-box',
-                top: ['48px', '56px', '64px'],
-                height: 'auto',
-                bottom: 0,
-              },
-            }}
-            variant="permanent"
-            anchor="left"
-          >
-            <Divider />
-            <List>
-              {LINKS.map(({ text, href, icon: Icon }) => (
-                <ListItem key={href} disablePadding>
-                  <ListItemButton component={Link} href={href}>
-                    <ListItemIcon>
-                      <Icon />
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-            <Divider sx={{ mt: 'auto' }} />
-            <List>
-              {PLACEHOLDER_LINKS.map(({ text, icon: Icon }) => (
-                <ListItem key={text} disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <Icon />
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-          </Drawer>
+          <SideNav />
           <Box
             component="main"
             sx={{

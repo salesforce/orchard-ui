@@ -7,7 +7,6 @@ import { Stats } from '@/components/Stats';
 export default function OrchardHome() {
   return (
     <>
-      <Stats />
       <BasicTable statuses={[]}/>
     </>
   );

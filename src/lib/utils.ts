@@ -14,6 +14,10 @@ export const fetcher = (input: RequestInfo | URL, init?: RequestInit) => (
   fetch(input, init).then((res) => res.json())
 )
 
+export const cacheFetcher = (input: RequestInfo | URL) => (
+  fetch(input, {cache: 'force-cache'}).then((res) => res.json())
+)
+
 export function renderDate(datestr: string) {
   return new Date(datestr + 'Z').toUTCString()
 }
