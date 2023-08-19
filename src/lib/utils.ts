@@ -19,7 +19,9 @@ export const cacheFetcher = (input: RequestInfo | URL) => (
 )
 
 export function renderDate(datestr: string) {
-  return new Date(datestr + 'Z').toUTCString()
+  let parsedDate = new Date(datestr + 'Z')
+  if (isNaN(parsedDate.valueOf())) return "..."
+  return parsedDate.toUTCString()
 }
 
 export async function fetchJson(url: RequestInfo | URL) {
