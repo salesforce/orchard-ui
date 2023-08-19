@@ -1,9 +1,12 @@
 'use client'
 
-import ActivityTable from '@/components/ActivityTable'
-import ResourceTable from '@/components/ResourceTable'
-import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material'
-import * as React from 'react'
+import ActivityTable from '@/components/ActivityTable';
+import ResourceTable from '@/components/ResourceTable';
+import WorkflowCard from '@/components/WorkflowCard';
+import { fetcher } from '@/lib/utils';
+import { Box, Container, Divider, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import * as React from 'react';
+import useSWR from 'swr';
 
 function EntityTable({ selection, workflowId }) {
   if (selection === 'resources') {
@@ -20,13 +23,23 @@ export default function WorfklowPage({ params }) {
     setSelection(newAlignment);
   }
 
+  const { data, error } = useSWR(`/api/workflow/${params.id}/activities`, fetcher)
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
+
   return (
     <>
-      <div>Workflow ID: {params.id}</div>
+      <Paper elevation={3}>
+        <WorkflowCard workflow={data.workflow} />
+      </Paper>
+      <Box sx={{mt:5}}>
+        <Divider />
+      </Box>
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
+        sx={{mt: 5}}
       >
         <ToggleButtonGroup
           color="primary"
