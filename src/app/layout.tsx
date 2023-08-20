@@ -1,28 +1,10 @@
-import * as React from 'react';
-import Link from 'next/link';
+import SideNav from '@/components/SideNav';
+import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsIcon from '@mui/icons-material/Settings';
-import SupportIcon from '@mui/icons-material/Support';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import DoneIcon from '@mui/icons-material/Done';
-import CancelIcon from '@mui/icons-material/Cancel';
-import ErrorIcon from '@mui/icons-material/Error';
-import PendingIcon from '@mui/icons-material/Pending';
-import SideNav from '@/components/SideNav';
 
 export const metadata = {
   title: 'Orchard Console',
@@ -30,21 +12,6 @@ export const metadata = {
 };
 
 const DRAWER_WIDTH = 240;
-
-const LINKS = [
-  { text: 'Home', href: '/', icon: HomeIcon },
-  { text: 'Pending', href: '/workflows/pending', icon: PendingIcon },
-  { text: 'Running', href: '/workflows/running', icon: DirectionsRunIcon },
-  { text: 'Finished', href: '/workflows/finished', icon: DoneIcon },
-  { text: 'Canceled', href: '/workflows/canceled', icon: CancelIcon },
-  { text: 'Failed', href: '/workflows/failed', icon: ErrorIcon },
-];
-
-const PLACEHOLDER_LINKS = [
-  { text: 'Settings', icon: SettingsIcon },
-  { text: 'Support', icon: SupportIcon },
-  { text: 'Logout', icon: LogoutIcon },
-];
 
 export default function RootLayout({ children }) {
   return (

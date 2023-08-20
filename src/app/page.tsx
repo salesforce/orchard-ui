@@ -9,7 +9,7 @@ export default function OrchardHome() {
 
   const [search, setSearch] = React.useState('%')
 
-  function submitSearch(event) {
+  function submitSearch(event: any) {
     event.preventDefault()
     setSearch(`%${event.target.elements.search.value}%`)
     return false

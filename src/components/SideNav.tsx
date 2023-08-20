@@ -67,7 +67,7 @@ function BadgeIcon({icon: Icon, text, data, error}) {
   const color = COLOR_MAP[text.toLocaleLowerCase()]
   return (
     <>
-      <Badge badgeContent={getCount(text)} color={color ? color : "primary"}>
+      <Badge badgeContent={getCount(text)} color={color ? color : "primary"} sx={{mr: 2}}>
         <Icon />
       </Badge>
     </>
