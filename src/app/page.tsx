@@ -4,14 +4,15 @@ import * as React from 'react';
 import WorkflowTable from '@/components/WorkflowTable';
 import { Directions, Search } from '@mui/icons-material';
 import { Divider, IconButton, InputBase, Paper } from '@mui/material';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 export default function OrchardHome() {
 
   const [search, setSearch] = React.useState('%')
 
-  function submitSearch(event: any) {
+  function submitSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSearch(`%${event.target.elements.search.value}%`)
+    setSearch(`%${event.currentTarget.elements['search'].value}%`)
     return false
   }
 
@@ -33,7 +34,7 @@ export default function OrchardHome() {
         />
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
         <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions" type="submit">
-          <Directions />
+          <KeyboardReturnIcon />
         </IconButton>
       </Paper>
       <WorkflowTable statuses={[]} search={search} />
