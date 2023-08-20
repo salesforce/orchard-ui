@@ -1,5 +1,5 @@
-import { BasicTable } from '@/components/WorkflowTable'
+import WorkflowTable from "@/components/WorkflowTable";
 
 export default function Worfklows({ params }) {
-  return <BasicTable statuses={[params.status]} />
+  return <WorkflowTable statuses={[params.status]} search={'%'} />
 }

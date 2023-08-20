@@ -13,9 +13,14 @@ import useSWR from 'swr';
 import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import StatusDisplay from './StatusDisplay';
 
-export function BasicTable({ statuses }) {
+export default function WorkflowTable({ statuses, search }) {
 
-  const { data, error } = useSWR(`/api?statuses=${statuses.join(',')}`, fetcher)
+  const url = `/api?` + new URLSearchParams({
+    statuses: statuses.join(','),
+    like: search
+  })
+
+  const { data, error } = useSWR(url, fetcher)
 
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
