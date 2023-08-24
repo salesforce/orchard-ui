@@ -20,7 +20,7 @@ export const cacheFetcher = (input: RequestInfo | URL) => (
 
 export function renderDate(datestr: string) {
   let parsedDate = new Date(datestr + 'Z')
-  if (isNaN(parsedDate.valueOf())) return "..."
+  if (isNaN(parsedDate.valueOf())) return "N/A"
   return parsedDate.toUTCString()
 }
 

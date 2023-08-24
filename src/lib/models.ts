@@ -1,3 +1,12 @@
+export interface Workflow {
+  id: string,
+  name: string,
+  status: string,
+  createdAt: string,
+  activatedAt: string | null,
+  terminatedAt: string | null
+}
+
 export interface Activity {
   workflowId: string,
   activityId: string,
