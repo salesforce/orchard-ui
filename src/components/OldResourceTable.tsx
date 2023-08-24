@@ -1,11 +1,11 @@
-import * as React from 'react';
-import useSWR from 'swr';
-import { SortedTable, SortedTableField } from "./SortedTable"
-import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import { Resource } from '@/lib/models';
-import { Box, Collapse, Container, IconButton, Link, TableCell, TableRow } from '@mui/material';
+import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Box, Collapse, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import Link from 'next/link';
+import * as React from 'react';
+import useSWR from 'swr';
 import StatusDisplay from './StatusDisplay';
 
 function Row({ workflow, rsc }) {
@@ -52,67 +52,38 @@ function Row({ workflow, rsc }) {
   )
 }
 
-const fields: SortedTableField<Resource>[] = [
-  {
-    key: null,
-    name: null,
-  },
-  {
-    key: 'resourceId',
-    name: 'Resource ID'
-  },
-  {
-    key: 'name',
-    name: 'Name'
-  },
-  {
-    key: 'resourceType',
-    name: 'Type'
-  },
-  {
-    key: 'status',
-    name: 'Status',
-  },
-  {
-    key: 'maxAttempt',
-    name: 'Max Attempt'
-  },
-  {
-    key: 'terminateAfter',
-    name: 'Terminate After'
-  },
-  {
-    key: 'createdAt',
-    name: 'Created At'
-  },
-  {
-    key: 'activatedAt',
-    name: 'Activated At'
-  },
-  {
-    key: 'terminatedAt',
-    name: 'Terminated At'
-  }
-]
-
 export default function ResourceTable({ workflowId }) {
 
   const { data, error } = useSWR(`/api/workflow/${workflowId}/resources`, fetcher)
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
-  const renderRow = (r: Resource) => {
-    return <Row workflow={data.workflow} rsc={r} />
-  }
-
   return (
-    <SortedTable<Resource>
-      rows={data.resources}
-      defaultOrder={'desc'}
-      defaultOrderBy={'activatedAt'}
-      renderRow={renderRow}
-      fields={fields}
-    />
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>Resource ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Max Attempt</TableCell>
+              <TableCell>Terminate After</TableCell>
+              <TableCell>Created At</TableCell>
+              <TableCell>Activated At</TableCell>
+              <TableCell>Terminated At</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.resources.map((rsc: Resource) => (
+              <Row workflow={data.workflow} rsc={rsc} key={rsc.resourceId} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   )
 
 }

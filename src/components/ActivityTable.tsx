@@ -1,22 +1,12 @@
-'use client'
-
-import * as React from 'react';
-import useSWR from 'swr';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { Activity } from '@/lib/models';
 import { fetcher, hourSpan, renderDate } from '@/lib/utils';
-import { Box, Collapse, Container, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Link from 'next/link';
-import { Activity } from '@/lib/models';
+import { Box, Collapse, Container, IconButton, Link, TableCell, TableRow } from '@mui/material';
+import * as React from 'react';
+import useSWR from 'swr';
+import { SortedTable, SortedTableField } from './SortedTable';
 import StatusDisplay from './StatusDisplay';
-import { SortedTable } from './SortedTable';
 
 function Row({ workflow, act }) {
   const [open, setOpen] = React.useState(false)
@@ -66,37 +56,66 @@ function Row({ workflow, act }) {
   )
 }
 
+const fields: SortedTableField<Activity>[] = [
+  {
+    key: null,
+    name: null,
+  },
+  {
+    key: "activityId",
+    name: "Activity ID"
+  },
+  {
+    key: "name",
+    name: "Name"
+  },
+  {
+    key: "activityType",
+    name: "Type"
+  },
+  {
+    key: "status",
+    name: "Status"
+  },
+  {
+    key: "maxAttempt",
+    name: "Max Attempt"
+  },
+  {
+    key: "resourceId",
+    name: "Resource ID"
+  },
+  {
+    key: "createdAt",
+    name: "Created At"
+  },
+  {
+    key: "activatedAt",
+    name: "Activated At"
+  },
+  {
+    key: "terminatedAt",
+    name: "Terminated At"
+  }
+]
+
 export default function ActivityTable({ workflowId }: { workflowId: string }) {
 
   const { data, error } = useSWR(`/api/workflow/${workflowId}/activities`, fetcher)
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
+  const renderRow = (r: Activity) => {
+    return <Row workflow={data.workflow} act={r} />
+  }
+
   return (
-    <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Activity ID</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>maxAttempt</TableCell>
-              <TableCell>resourceId</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell>Activated At</TableCell>
-              <TableCell>Terminated At</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.activities.map((act: Activity) => (
-              <Row workflow={data.workflow} act={act} key={act.activityId} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+    <SortedTable<Activity>
+      rows={data.activities}
+      defaultOrder={'desc'}
+      defaultOrderBy={'activatedAt'}
+      renderRow={renderRow}
+      fields={fields}
+    />
   )
 }
