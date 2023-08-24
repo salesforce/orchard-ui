@@ -1,20 +1,19 @@
 'use client';
 
-import { visuallyHidden } from '@mui/utils';
-import * as React from 'react';
+import { Workflow } from '@/lib/models';
+import { fetcher, hourSpan, renderDate } from '@/lib/utils';
+import { TableSortLabel } from '@mui/material';
 import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import * as React from 'react';
 import useSWR from 'swr';
-import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import StatusDisplay from './StatusDisplay';
-import { Workflow } from '@/lib/models';
-import { Box, TableSortLabel } from '@mui/material';
 
 
 type Order = 'asc' | 'desc'
@@ -111,31 +110,19 @@ function getComparator<Key extends keyof any>(order: Order, orderBy: Key): (
     : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
-export default function WorkflowTable({ statuses, search }) {
+function SortedTable({ rows }) {
 
   const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<keyof Workflow>('createdAt')
-
-  const url = `/api?` + new URLSearchParams({
-    statuses: statuses.join(','),
-    like: search
-  })
-
-  const { data, error } = useSWR<[Workflow]>(url, fetcher)
-
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+  const sortedRows = React.useMemo(
+    () => rows.slice().sort(getComparator(order, orderBy)), [order, orderBy]
+  )
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Workflow) => {
     const isDesc = orderBy === property && order === 'desc'
     setOrder(isDesc ? 'asc' : 'desc')
     setOrderBy(property)
   }
-
-  const sortedRows = data.slice().sort(getComparator(order, orderBy))
-  // const sortedRows = React.useMemo(
-  //   () => data.slice().sort(getComparator(order, orderBy)), [order, orderBy]
-  // )
 
   return (
     <TableContainer component={Paper}>
@@ -160,5 +147,21 @@ export default function WorkflowTable({ statuses, search }) {
         </TableBody>
       </Table>
     </TableContainer>
-  );
+  )
+}
+
+export default function WorkflowTable({ statuses, search }) {
+
+  const url = `/api?` + new URLSearchParams({
+    statuses: statuses.join(','),
+    like: search
+  })
+
+  const { data, error } = useSWR<[Workflow]>(url, fetcher)
+
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
+
+  return <SortedTable rows={data} />
+
 }
