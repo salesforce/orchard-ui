@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react';
-import WorkflowTable from '@/components/WorkflowTable';
+import WorkflowTable from '@/components/NewWorkflowTable';
 import { Directions, Search } from '@mui/icons-material';
 import { Divider, IconButton, InputBase, Paper } from '@mui/material';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';

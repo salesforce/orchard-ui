@@ -1,7 +1,7 @@
 'use client'
 
-import ActivityTable from '@/components/ActivityTable';
-import ResourceTable from '@/components/ResourceTable';
+import ActivityTable from '@/components/NewActivityTable';
+import ResourceTable from '@/components/NewResourceTable';
 import WorkflowCard from '@/components/WorkflowCard';
 import { fetcher } from '@/lib/utils';
 import { Box, Container, Divider, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
