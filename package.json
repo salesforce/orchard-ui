@@ -20,6 +20,7 @@
     "next": "13.x",
     "react": "18.x",
     "react-dom": "18.x",
+    "recharts": "^2.8.0",
     "swr": "^2.2.1"
   },
   "devDependencies": {

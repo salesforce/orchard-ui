@@ -40,7 +40,7 @@ const LINKS = [
 
 const PLACEHOLDER_LINKS = [
   { text: 'Settings', icon: SettingsIcon },
-  { text: 'Support', icon: SupportIcon },
+  { text: 'Support', href: '/stats', icon: SupportIcon },
   { text: 'Logout', icon: LogoutIcon },
 ]
 
@@ -109,9 +109,9 @@ export default function SideNav() {
         </List>
         <Divider sx={{ mt: 'auto' }} />
         <List>
-          {PLACEHOLDER_LINKS.map(({ text, icon: Icon }) => (
+          {PLACEHOLDER_LINKS.map(({ text, icon: Icon, href }) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton component={Link} href={href}>
                 <ListItemIcon>
                   <Icon />
                 </ListItemIcon>
