@@ -1,6 +1,8 @@
 'use client'
 
+import Title from '@/components/Title';
 import { fetcher } from '@/lib/utils';
+import { Container, Grid, Paper } from '@mui/material';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
 import useSWR from 'swr';
 
@@ -62,18 +64,21 @@ function WorkflowStatusChart({ data }: { data: DailyCount[] }) {
     pivotToDailyStatusCount(data).sort((a, b) => a.date.localeCompare(b.date))
 
   return (
-    <ResponsiveContainer height={350}>
-      <BarChart data={dailyStatuses}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="finished" stackId="a" fill="#2e7d32" />
-        <Bar dataKey="failed" stackId="a" fill="#d32f2f" />
-        <Bar dataKey="canceled" stackId="a" fill="#ed7c02" />
-      </BarChart>
-    </ResponsiveContainer>
+    <>
+      <Title>Daily Worfklow Count</Title>
+      <ResponsiveContainer height={350}>
+        <BarChart data={dailyStatuses}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="finished" stackId="a" fill="#2e7d32" />
+          <Bar dataKey="failed" stackId="a" fill="#d32f2f" />
+          <Bar dataKey="canceled" stackId="a" fill="#ed7c02" />
+        </BarChart>
+      </ResponsiveContainer>
+    </>
   )
 
 }
@@ -169,6 +174,7 @@ function WorkflowPatternBubbleChart() {
 
   return (
     <>
+      <Title>Activated Workflows Weekly Pattern</Title>
       <div style={{ width: '100%' }}>
         {
           Object.keys(pivoted).map((k) =>
@@ -229,8 +235,20 @@ export default function Stats() {
 
   return (
     <>
-      <WorkflowStatusChart data={data} />
-      <WorkflowPatternBubbleChart />
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Paper sx={{ p: 2 }} >
+              <WorkflowStatusChart data={data} />
+            </Paper>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper sx={{ p: 2 }}>
+              <WorkflowPatternBubbleChart />
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   )
 
