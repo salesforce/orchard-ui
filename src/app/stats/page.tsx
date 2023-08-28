@@ -58,7 +58,11 @@ function pivotToDailyStatusCount(dailyCounts: DailyCount[]) {
   })
 }
 
-function WorkflowStatusChart({ data }: { data: DailyCount[] }) {
+function WorkflowStatusChart() {
+
+  const { data, error } = useSWR<DailyCount[]>(`/api/stats/daily`, fetcher)
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
 
   const dailyStatuses: DailyStatusCount[] =
     pivotToDailyStatusCount(data).sort((a, b) => a.date.localeCompare(b.date))
@@ -225,30 +229,20 @@ function WorkflowPatternBubbleChart() {
 
 export default function Stats() {
 
-  const { data, error } = useSWR<DailyCount[]>(`/api/stats/daily`, fetcher)
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
-
-  const dcCompare = (a: DailyCount, b: DailyCount) => a.date.localeCompare(b.date)
-
-  data.sort(dcCompare)
-
   return (
     <>
-      <Container>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2 }} >
-              <WorkflowStatusChart data={data} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2 }}>
-              <WorkflowPatternBubbleChart />
-            </Paper>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2 }} >
+            <WorkflowStatusChart />
+          </Paper>
         </Grid>
-      </Container>
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2 }}>
+            <WorkflowPatternBubbleChart />
+          </Paper>
+        </Grid>
+      </Grid>
     </>
   )
 
