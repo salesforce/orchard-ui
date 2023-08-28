@@ -37,7 +37,7 @@ export default function WorfklowPage({ params }) {
       </Box>
       <Box
         display="flex"
-        justifyContent="center"
+        justifyContent="left"
         alignItems="center"
         sx={{mt: 5}}
       >
@@ -48,8 +48,8 @@ export default function WorfklowPage({ params }) {
           onChange={handleChange}
           aria-label="Workflow Entities"
         >
-          <ToggleButton value="activities">Activities</ToggleButton>
-          <ToggleButton value="resources">Resources</ToggleButton>
+          <ToggleButton value="activities" sx={{ backgroundColor: 'background.paper' }}>Activities</ToggleButton>
+          <ToggleButton value="resources" sx={{ backgroundColor: 'background.paper' }}>Resources</ToggleButton>
         </ToggleButtonGroup>
       </Box>
       <EntityTable selection={selection} workflowId={params.id} />
