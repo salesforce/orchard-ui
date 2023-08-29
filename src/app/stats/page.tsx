@@ -2,7 +2,7 @@
 
 import Title from '@/components/Title';
 import { fetcher } from '@/lib/utils';
-import { Container, Grid, Paper } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
 import useSWR from 'swr';
 
@@ -20,6 +20,7 @@ interface DayHourPattern {
 
 interface DailyStatusCount {
   date: string,
+  running: number,
   finished: number,
   failed: number,
   canceled: number
@@ -28,6 +29,7 @@ interface DailyStatusCount {
 function pivotToDailyStatusCount(dailyCounts: DailyCount[]) {
   const pivatedTable = dailyCounts.reduce((accu, dc) => {
     if (!accu[dc.date]) accu[dc.date] = {
+      running: 0,
       finished: 0,
       failed: 0,
       canceled: 0
@@ -51,6 +53,7 @@ function pivotToDailyStatusCount(dailyCounts: DailyCount[]) {
     }
     return {
       date: d,
+      running: 0,
       finished: 0,
       failed: 0,
       canceled: 0
@@ -80,6 +83,7 @@ function WorkflowStatusChart() {
           <Bar dataKey="finished" stackId="a" fill="#2e7d32" />
           <Bar dataKey="failed" stackId="a" fill="#d32f2f" />
           <Bar dataKey="canceled" stackId="a" fill="#ed7c02" />
+          <Bar dataKey="running" stackId="a" fill="#0288d1" />
         </BarChart>
       </ResponsiveContainer>
     </>
