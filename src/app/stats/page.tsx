@@ -39,7 +39,7 @@ function pivotToDailyStatusCount(dailyCounts: DailyCount[]) {
   const days = Array.from({ length: 30 }, (_, idx) => {
     const d = new Date()
     d.setDate(d.getDate() - idx)
-    return `${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + d.getDate()).slice(-2)}`
+    return `${d.getUTCFullYear()}-${('0' + (d.getUTCMonth() + 1)).slice(-2)}-${('0' + d.getUTCDate()).slice(-2)}`
   })
 
   return days.map((d) => {
