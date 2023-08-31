@@ -11,6 +11,8 @@ import StatusDisplay from '@/components/StatusDisplay';
 
 function AWSLink({ rscType, spec }) {
 
+  if (!spec) return <></>
+
   let url: string = null
   if (rscType == 'aws.resource.EmrResource') {
     url = `https://console.aws.amazon.com/emr/home?region=us-east-1#/clusterDetails/${spec.clusterId}`
@@ -29,6 +31,7 @@ function AWSLink({ rscType, spec }) {
 
 function Row({ rsc, inst }) {
   const [open, setOpen] = React.useState(false)
+
   return (
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -36,6 +39,7 @@ function Row({ rsc, inst }) {
           <IconButton
             aria-label="expand row"
             size="small"
+            disabled={inst.instanceSpec == null}
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
