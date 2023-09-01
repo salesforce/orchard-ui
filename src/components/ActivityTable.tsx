@@ -106,7 +106,7 @@ export default function ActivityTable({ workflowId }: { workflowId: string }) {
   if (!data) return <div>Loading...</div>
 
   const renderRow = (r: Activity) => {
-    return <Row workflow={data.workflow} act={r} />
+    return <Row workflow={data.workflow} act={r} key={r.activityId} />
   }
 
   return (

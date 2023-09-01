@@ -4,7 +4,7 @@ import ActivityTable from '@/components/ActivityTable';
 import ResourceTable from '@/components/ResourceTable';
 import WorkflowCard from '@/components/WorkflowCard';
 import { fetcher } from '@/lib/utils';
-import { Box, Container, Divider, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Divider, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import * as React from 'react';
 import useSWR from 'swr';
 
@@ -32,14 +32,14 @@ export default function WorfklowPage({ params }) {
       <Paper elevation={3}>
         <WorkflowCard workflow={data.workflow} />
       </Paper>
-      <Box sx={{mt:5}}>
+      <Box sx={{ mt: 5 }}>
         <Divider />
       </Box>
       <Box
         display="flex"
         justifyContent="left"
         alignItems="center"
-        sx={{mt: 5}}
+        sx={{ mt: 5 }}
       >
         <ToggleButtonGroup
           color="primary"

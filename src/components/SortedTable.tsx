@@ -1,4 +1,4 @@
-import { Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel } from '@mui/material'
 import * as React from 'react'
 
 type Order = 'asc' | 'desc'
@@ -30,26 +30,28 @@ function SortedTableHead<R extends object>(props: SortedTableHeadProps<R>) {
 
   return (
     <TableHead>
-      {
-        props.fields.map((f, i) => {
-          if (!f.key) return <TableCell key={`_empty-${i}`} />
+      <TableRow>
+        {
+          props.fields.map((f, i) => {
+            if (!f.key) return <TableCell key={`_empty-${i}`} />
 
-          return (
-            <TableCell
-              key={f.key.toString()}
-              sortDirection={props.orderBy === f.key ? props.order : false}
-            >
-              <TableSortLabel
-                active={props.orderBy === f.key}
-                direction={props.orderBy == f.key ? props.order : 'desc'}
-                onClick={createSortHandler(f.key)}
+            return (
+              <TableCell
+                key={f.key.toString()}
+                sortDirection={props.orderBy === f.key ? props.order : false}
               >
-                {f.name}
-              </TableSortLabel>
-            </TableCell>
-          )
-        })
-      }
+                <TableSortLabel
+                  active={props.orderBy === f.key}
+                  direction={props.orderBy == f.key ? props.order : 'desc'}
+                  onClick={createSortHandler(f.key)}
+                >
+                  {f.name}
+                </TableSortLabel>
+              </TableCell>
+            )
+          })
+        }
+      </TableRow>
     </TableHead>
   )
 }
