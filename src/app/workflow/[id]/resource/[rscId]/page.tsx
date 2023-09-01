@@ -1,15 +1,15 @@
 'use client'
 
-import * as React from 'react';
-import { fetcher, hourSpan, renderDate } from '@/lib/utils';
-import { Box, Breadcrumbs, Card, CardContent, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import useSWR from 'swr';
-import HomeIcon from '@mui/icons-material/Home';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { ResourceInstance } from '@/lib/models';
 import StatusDisplay from '@/components/StatusDisplay';
-import { RocketLaunch } from '@mui/icons-material';
+import { ResourceInstance } from '@/lib/models';
+import { fetcher, hourSpan, renderDate } from '@/lib/utils';
+import { Memory } from '@mui/icons-material';
+import HomeIcon from '@mui/icons-material/Home';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Box, Breadcrumbs, Card, CardContent, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import * as React from 'react';
+import useSWR from 'swr';
 
 function AWSLink({ rscType, spec }) {
 
@@ -88,8 +88,8 @@ function ResourceCard({ workflowId, resource }) {
               Workflow ({workflowId})
             </Link>
             <Typography color="text.primary">
-              <RocketLaunch fontSize="inherit" sx={{ mr: 0.5 }} />
-              Activity ({resource.resourceId})
+              <Memory fontSize="inherit" sx={{ mr: 0.5 }} />
+              Resource ({resource.resourceId})
             </Typography>
           </Breadcrumbs>
         </Typography>
