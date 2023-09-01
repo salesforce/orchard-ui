@@ -17,9 +17,9 @@ function AWSLink({ rscType, spec }) {
 
   let url: string = null
   if (rscType == 'aws.resource.EmrResource') {
-    url = `https://console.aws.amazon.com/emr/home?region=us-east-1#/clusterDetails/${spec.clusterId}`
+    url = `https://console.aws.amazon.com/emr/home#/clusterDetails/${spec.clusterId}`
   } else if (rscType == 'aws.resource.Ec2Resource') {
-    url = `https://console.aws.amazon.com/ec2/home?region=us-east-1#InstanceDetails:instanceId=${spec.ec2InstanceId}`
+    url = `https://console.aws.amazon.com/ec2/home#InstanceDetails:instanceId=${spec.ec2InstanceId}`
   }
 
   if (url) {
