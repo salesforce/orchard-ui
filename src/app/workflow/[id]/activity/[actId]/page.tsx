@@ -4,7 +4,8 @@ import * as React from 'react';
 import { fetcher, hourSpan, renderDate } from '@/lib/utils';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Box, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Breadcrumbs, Card, CardContent, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
 import useSWR from 'swr';
 import { ActivityAttempt } from '@/lib/models';
 import StatusDisplay from '@/components/StatusDisplay';
@@ -15,13 +16,13 @@ function Row({ workflowId, attempt }) {
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
         </TableCell>
         <TableCell>{attempt.attempt}</TableCell>
         <TableCell><StatusDisplay status={attempt.status} hourSpan={hourSpan(attempt.activatedAt, attempt.terminatedAt)} /></TableCell>
@@ -49,15 +50,53 @@ function Row({ workflowId, attempt }) {
   )
 }
 
-export default function ActivityPage({ params }: { params: {id: string, actId: string}}) {
+function ActivityCard({ workflowId, activityId, activity }) {
+  return (
+    <Card sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography>
+          <Breadcrumbs aria-label="breadcrum">
+            <Link
+              underline="hover"
+              color="inherit"
+              sx={{ display: 'flex', alignItems: 'center' }}
+              href={`/workflow/${workflowId}`}
+            >
+              <HomeIcon fontSize="inherit" sx={{ mr: 0.5 }} />
+              Workflow ({workflowId})
+            </Link>
+            <Typography color="text.primary">
+              Activity ({activityId})
+            </Typography>
+          </Breadcrumbs>
+        </Typography>
+        <Typography variant='h5' component='div' >
+          {activity.name} <StatusDisplay status={activity.status} hourSpan={hourSpan(activity.activatedAt, activity.terminatedAt)} />
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Created: {renderDate(activity.createdAt)}
+        </Typography>
+        <Typography variant="body2">
+          Activated: {renderDate(activity.activatedAt)}
+          <br />
+          Terminated: {renderDate(activity.terminatedAt)}
+        </Typography>
+      </CardContent>
+    </Card>
+  )
+}
+
+export default function ActivityPage({ params }: { params: { id: string, actId: string } }) {
   const { data, error } = useSWR(`/api/workflow/${params.id}/activity/${params.actId}`, fetcher)
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
   return (
     <>
-      <Box>Activity ID: <Link href={`/workflow/${params.id}/activities`}>{data.activity.activityId}</Link></Box>
-      <TableContainer component={Paper}>
+      <Paper>
+        <ActivityCard workflowId={params.id} activityId={params.actId} activity={data.activity} />
+      </Paper>
+      <TableContainer component={Paper} sx={{ mt: 2 }}>
         <TableHead>
           <TableCell />
           <TableCell>Attempt No.</TableCell>
