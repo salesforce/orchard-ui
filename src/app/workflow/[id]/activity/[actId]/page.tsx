@@ -9,6 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import useSWR from 'swr';
 import { ActivityAttempt } from '@/lib/models';
 import StatusDisplay from '@/components/StatusDisplay';
+import { RocketLaunch } from '@mui/icons-material';
 
 function Row({ workflowId, attempt }) {
   const [open, setOpen] = React.useState(false)
@@ -50,7 +51,7 @@ function Row({ workflowId, attempt }) {
   )
 }
 
-function ActivityCard({ workflowId, activityId, activity }) {
+function ActivityCard({ workflowId, activity }) {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -66,7 +67,8 @@ function ActivityCard({ workflowId, activityId, activity }) {
               Workflow ({workflowId})
             </Link>
             <Typography color="text.primary">
-              Activity ({activityId})
+              <RocketLaunch fontSize="inherit" sx={{ mr: 0.5 }} />
+              Activity ({activity.activityId})
             </Typography>
           </Breadcrumbs>
         </Typography>
@@ -94,7 +96,7 @@ export default function ActivityPage({ params }: { params: { id: string, actId: 
   return (
     <>
       <Paper>
-        <ActivityCard workflowId={params.id} activityId={params.actId} activity={data.activity} />
+        <ActivityCard workflowId={params.id} activity={data.activity} />
       </Paper>
       <TableContainer component={Paper} sx={{ mt: 2 }}>
         <TableHead>

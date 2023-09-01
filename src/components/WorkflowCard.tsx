@@ -14,7 +14,7 @@ export default function WorkflowCard({ workflow }) {
       <CardContent>
         <Breadcrumbs aria-label="breadcrum">
           <Typography
-            color="text.secondary"
+            color="text.primary"
             sx={{ display: 'flex', alignItems: 'center' }}
           >
             <HomeIcon fontSize="inherit" sx={{ mr: 0.5 }} />

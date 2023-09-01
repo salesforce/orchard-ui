@@ -2,12 +2,14 @@
 
 import * as React from 'react';
 import { fetcher, hourSpan, renderDate } from '@/lib/utils';
-import { Box, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Breadcrumbs, Card, CardContent, Collapse, Container, IconButton, Link, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import useSWR from 'swr';
+import HomeIcon from '@mui/icons-material/Home';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ResourceInstance } from '@/lib/models';
 import StatusDisplay from '@/components/StatusDisplay';
+import { RocketLaunch } from '@mui/icons-material';
 
 function AWSLink({ rscType, spec }) {
 
@@ -70,6 +72,44 @@ function Row({ rsc, inst }) {
   )
 }
 
+function ResourceCard({ workflowId, resource }) {
+  return (
+    <Card sx={{ minWidth: 275 }}>
+      <CardContent>
+        <Typography>
+          <Breadcrumbs aria-label="breadcrum">
+            <Link
+              underline="hover"
+              color="inherit"
+              sx={{ display: 'flex', alignItems: 'center' }}
+              href={`/workflow/${workflowId}`}
+            >
+              <HomeIcon fontSize="inherit" sx={{ mr: 0.5 }} />
+              Workflow ({workflowId})
+            </Link>
+            <Typography color="text.primary">
+              <RocketLaunch fontSize="inherit" sx={{ mr: 0.5 }} />
+              Activity ({resource.resourceId})
+            </Typography>
+          </Breadcrumbs>
+        </Typography>
+        <Typography variant='h5' component='div' >
+          {resource.name} <StatusDisplay status={resource.status} hourSpan={hourSpan(resource.activatedAt, resource.terminatedAt)} />
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Created: {renderDate(resource.createdAt)}
+        </Typography>
+        <Typography variant="body2">
+          Activated: {renderDate(resource.activatedAt)}
+          <br />
+          Terminated: {renderDate(resource.terminatedAt)}
+        </Typography>
+      </CardContent>
+    </Card>
+  )
+
+}
+
 export default function ResourcePage({ params }) {
   const { data, error } = useSWR(`/api/workflow/${params.id}/resource/${params.rscId}`, fetcher)
   if (error) return <div>Failed to load</div>
@@ -77,8 +117,10 @@ export default function ResourcePage({ params }) {
 
   return (
     <>
-      <Box>Resource ID: <Link href={`/workflow/${params.id}/resources`}>{data.resource.resourceId}</Link></Box>
-      <TableContainer component={Paper}>
+      <Paper>
+        <ResourceCard workflowId={params.id} resource={data.resource} />
+      </Paper>
+      <TableContainer component={Paper} sx={{ mt: 2 }}>
         <TableHead>
           <TableCell />
           <TableCell>Instance Attempt No.</TableCell>
