@@ -3,7 +3,7 @@
 import Title from '@/components/Title';
 import { fetcher } from '@/lib/utils';
 import { Grid, Paper } from '@mui/material';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Scatter, ScatterChart, Tooltip, TooltipProps, XAxis, YAxis, ZAxis } from 'recharts';
 import useSWR from 'swr';
 
 interface DailyCount {
@@ -153,7 +153,7 @@ function WorkflowPatternBubbleChart() {
 
   const domain = [0, Math.max.apply(null, data.map((e) => e.count))]
   const range = [0, 255]
-  const renderTooltip = (props) => {
+  const renderTooltip = (props: TooltipProps<number, string>) => {
     const { active, payload } = props;
 
     if (active && payload && payload.length) {
