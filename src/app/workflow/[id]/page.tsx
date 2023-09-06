@@ -19,7 +19,7 @@ function EntityTable({ selection, workflowId }) {
 export default function WorfklowPage({ params }) {
 
   const [selection, setSelection] = React.useState('activities')
-  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+  const handleChange = (_: React.MouseEvent<HTMLElement>, newAlignment: string) => {
     setSelection(newAlignment);
   }
 
