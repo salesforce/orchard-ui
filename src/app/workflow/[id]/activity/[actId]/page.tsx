@@ -11,7 +11,24 @@ import { ActivityAttempt } from '@/lib/models';
 import StatusDisplay from '@/components/StatusDisplay';
 import { RocketLaunch } from '@mui/icons-material';
 
-function Row({ workflowId, attempt }) {
+function AWSLink({ actType, spec }) {
+  if (!spec) return <></>
+
+  let url: string = null
+  if (actType == 'aws.activity.ShellScriptActivity') {
+    url = `https://us-east-1.console.aws.amazon.com/systems-manager/run-command/${spec[0]}?region=us-east-1`
+  }
+
+  if (url) {
+    return (
+      <a target="_blank" href={url}>External Link</a>
+    )
+  }
+
+  return <></>
+}
+
+function Row({ activity, attempt }) {
   const [open, setOpen] = React.useState(false)
   return (
     <>
@@ -28,7 +45,7 @@ function Row({ workflowId, attempt }) {
         <TableCell>{attempt.attempt}</TableCell>
         <TableCell><StatusDisplay status={attempt.status} hourSpan={hourSpan(attempt.activatedAt, attempt.terminatedAt)} /></TableCell>
         <TableCell>{attempt.errorMessage}</TableCell>
-        <TableCell><Link href={`/workflow/${workflowId}/resource/${attempt.resourceId}`}>{attempt.resourceId}</Link></TableCell>
+        <TableCell><Link href={`/workflow/${activity.workflowId}/resource/${attempt.resourceId}`}>{attempt.resourceId}</Link></TableCell>
         <TableCell>{attempt.resourceInstanceAttempt}</TableCell>
         <TableCell>{renderDate(attempt.createdAt)}</TableCell>
         <TableCell>{renderDate(attempt.activatedAt)}</TableCell>
@@ -43,6 +60,7 @@ function Row({ workflowId, attempt }) {
                   {JSON.stringify(attempt.attemptSpec, null, 2)}
                 </pre>
               </Box>
+              <AWSLink actType={activity.activityType} spec={attempt.attemptSpec} />
             </Container>
           </Collapse>
         </TableCell>
@@ -112,7 +130,7 @@ export default function ActivityPage({ params }: { params: { id: string, actId: 
         </TableHead>
         <TableBody>
           {data.attempts.map((attempt: ActivityAttempt) => (
-            <Row workflowId={params.id} attempt={attempt} key={attempt.attempt} />
+            <Row activity={data.activity} attempt={attempt} key={attempt.attempt} />
           ))}
         </TableBody>
       </TableContainer>
