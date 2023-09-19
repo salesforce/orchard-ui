@@ -20,7 +20,7 @@ export default function OrchardHome() {
     <>
       <Paper
         component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', maxWidth: 1000 , mb: 2}}
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', maxWidth: 1000, mb: 2 }}
         onSubmit={submitSearch}
       >
         <IconButton sx={{ p: '10px' }} aria-label="menu">
