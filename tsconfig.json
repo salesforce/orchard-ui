@@ -23,11 +23,8 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "strictNullChecks": true
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
