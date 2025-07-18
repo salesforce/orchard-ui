@@ -1,7 +1,6 @@
 {
   "name": "orchard-ui",
   "version": "1.1.1",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
