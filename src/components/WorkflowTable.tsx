@@ -55,25 +55,38 @@ const renderRow = (row: Workflow) => {
 }
 
 export default function WorkflowTable({ statuses, search }) {
-
+  const workflowId = search.replace(/^%|%$/g, '');
+  const { data: detailData, error: detailError } = useSWR(
+    workflowId ? `/api/workflow/${workflowId}/details` : null,
+    fetcher
+  );
   const url = `/api?` + new URLSearchParams({
     statuses: statuses.join(','),
     like: search
-  })
-
-  const { data, error } = useSWR<[Workflow]>(url, fetcher)
-
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
-
-  return (
-    <SortedTable<Workflow>
-      rows={data}
-      defaultOrder='desc'
-      defaultOrderBy='createdAt'
-      renderRow={renderRow}
-      fields={fields}
-    />
-  )
-
+  });
+  const { data: wfData, error: wfError } = useSWR<[Workflow]>(url, fetcher)
+  if (detailError && wfError) return <div>Failed to load</div>
+  if (!detailError && detailData) {
+    return (
+      <SortedTable<Workflow>
+        rows={[detailData]}
+        defaultOrder='desc'
+        defaultOrderBy='createdAt'
+        renderRow={renderRow}
+        fields={fields}
+      />
+    )
+  } else if (!wfError && wfData && wfData.length > 0) {
+    return (
+      <SortedTable<Workflow>
+        rows={wfData}
+        defaultOrder='desc'
+        defaultOrderBy='createdAt'
+        renderRow={renderRow}
+        fields={fields}
+      />
+    )
+  } else {
+    return <div>Loading...</div>
+  }
 }
