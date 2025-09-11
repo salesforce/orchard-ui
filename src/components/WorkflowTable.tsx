@@ -54,7 +54,7 @@ const renderRow = (row: Workflow) => {
   )
 }
 
-export default function WorkflowTable({ statuses, search, workflowIdSearch }) {
+export default function WorkflowTable({ statuses, pipelineNameSearch, workflowIdSearch }) {
 
   let url: string
   
@@ -65,7 +65,7 @@ export default function WorkflowTable({ statuses, search, workflowIdSearch }) {
     // Use general search route for pipeline name search
     const params = new URLSearchParams({
       statuses: statuses.join(','),
-      like: search
+      like: pipelineNameSearch
     })
     url = `/api?` + params
   }

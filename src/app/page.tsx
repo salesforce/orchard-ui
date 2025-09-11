@@ -8,12 +8,12 @@ import * as React from 'react';
 
 export default function OrchardHome() {
 
-  const [search, setSearch] = React.useState('%')
+  const [pipelineNameSearch, setPipelineNameSearch] = React.useState('%')
   const [workflowIdSearch, setWorkflowIdSearch] = React.useState('')
 
   function submitPipelineNameSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSearch(`%${event.currentTarget.elements['search'].value}%`)
+    setPipelineNameSearch(`%${event.currentTarget.elements['search'].value}%`)
     setWorkflowIdSearch('') // Clear workflow ID search when using pipeline search
     return false
   }
@@ -21,7 +21,7 @@ export default function OrchardHome() {
   function submitWorkflowIdSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setWorkflowIdSearch(event.currentTarget.elements['workflowIdSearch'].value.trim())
-    setSearch('%') // Clear pipeline search when using workflow ID search
+    setPipelineNameSearch('%') // Clear pipeline search when using workflow ID search
     return false
   }
 
@@ -91,7 +91,7 @@ export default function OrchardHome() {
         </IconButton>
       </Paper>
       
-      <WorkflowTable statuses={[]} search={search} workflowIdSearch={workflowIdSearch} />
+      <WorkflowTable statuses={[]} pipelineNameSearch={pipelineNameSearch} workflowIdSearch={workflowIdSearch} />
     </>
   );
 }
