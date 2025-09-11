@@ -11,15 +11,17 @@ import { Box, Breadcrumbs, Card, CardContent, Collapse, Container, IconButton, L
 import * as React from 'react';
 import useSWR from 'swr';
 
+const awsRegion = process.env.NEXT_PUBLIC_AWS_REGION
+
 function AWSLink({ rscType, spec }) {
 
   if (!spec) return <></>
 
   let url: string = null
   if (rscType == 'aws.resource.EmrResource') {
-    url = `https://console.aws.amazon.com/emr/home#/clusterDetails/${spec.clusterId}`
+    url = `https://console.aws.amazon.com/emr/home?region=${awsRegion}#/clusterDetails/${spec.clusterId}`
   } else if (rscType == 'aws.resource.Ec2Resource') {
-    url = `https://console.aws.amazon.com/ec2/home#InstanceDetails:instanceId=${spec.ec2InstanceId}`
+    url = `https://console.aws.amazon.com/ec2/home?region=${awsRegion}#InstanceDetails:instanceId=${spec.ec2InstanceId}`
   }
 
   if (url) {
