@@ -54,21 +54,35 @@ const renderRow = (row: Workflow) => {
   )
 }
 
-export default function WorkflowTable({ statuses, search }) {
+export default function WorkflowTable({ statuses, pipelineNameSearch, workflowIdSearch }) {
 
-  const url = `/api?` + new URLSearchParams({
-    statuses: statuses.join(','),
-    like: search
-  })
+  let url: string
+  
+  // Use specific workflow details route when searching by workflow ID
+  if (workflowIdSearch && workflowIdSearch.trim()) {
+    url = `/api/workflow/${workflowIdSearch.trim()}/details`
+  } else {
+    // Use general search route for pipeline name search
+    const params = new URLSearchParams({
+      statuses: statuses.join(','),
+      like: pipelineNameSearch
+    })
+    url = `/api?` + params
+  }
 
-  const { data, error } = useSWR<[Workflow]>(url, fetcher)
+  const { data, error } = useSWR(url, fetcher)
 
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
+  // Handle different response formats: single workflow vs array of workflows
+  const workflows = workflowIdSearch && workflowIdSearch.trim() 
+    ? [data] // Single workflow from details route
+    : data   // Array of workflows from search route
+
   return (
     <SortedTable<Workflow>
-      rows={data}
+      rows={workflows}
       defaultOrder='desc'
       defaultOrderBy='createdAt'
       renderRow={renderRow}
